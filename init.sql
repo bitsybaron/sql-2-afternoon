@@ -50,3 +50,80 @@ SELECT * FROM track
 WHERE album_id IN (SELECT album_id FROM album WHERE artist_id IN (
     SELECT artist_id FROM artist WHERE name = 'Queen'
 ));
+
+SELECT COUNT(*), g.name
+FROM track t JOIN genre g
+ON g.genre_id = t.genre_id
+GROUP BY g.name;
+
+SELECT COUNT(*), g.name
+FROM track t JOIN genre g 
+ON t.genre_id = g.genre_id
+WHERE g.name = 'Pop' OR g.name = 'Rock'
+GROUP BY g.name;
+
+SELECT COUNT(*), ar.name 
+FROM artist ar JOIN album al 
+ON ar.artist_id = al.artist_id
+GROUP BY ar.name;
+
+SELECT DISTINCT composer FROM track;
+
+SELECT DISTINCT billing_postal_code FROM invoice;
+
+SELECT DISTINCT company FROM customer;
+
+DELETE FROM practice_delete WHERE type = 'bronze';
+
+DELETE FROM practice_delete WHERE type = 'silver';
+
+DELETE FROM practice_delete WHERE value = 150;
+
+CREATE TABLE users 
+(
+    user_id SERIAL PRIMARY KEY,
+    name VARCHAR(15),
+    email VARCHAR(30)
+);
+
+INSERT INTO users (name, email)
+VALUES
+('Lucy', 'lucy-anna@gmail.com'),
+('Kivi', 'kivulinia@gmail.com'),
+('Coconut', 'worlds-cutestkitten@gmail.com');
+
+CREATE TABLE products
+(
+    product_id SERIAL PRIMARY KEY,
+    name VARCHAR(15),
+    price INT
+);
+
+INSERT INTO products (name, price)
+VALUES
+('Poster', 4.99),
+('Keychain', 3.99),
+('Purse', 599.99);
+
+CREATE TABLE orders 
+(
+    order_id SERIAL PRIMARY KEY,
+    product_id INT
+);
+INSERT INTO orders (product_id)
+VALUES 
+(1),
+(2),
+(3);
+
+SELECT * FROM orders o JOIN products p 
+ON o.product_id = p.product_id 
+WHERE o.order_id = 1;
+
+SELECT * FROM orders o JOIN products p 
+ON o.product_id = p.product_id;
+
+SELECT SUM(p.price)
+FROM orders o JOIN products p 
+ON o.product_id = p.product_id;
+
