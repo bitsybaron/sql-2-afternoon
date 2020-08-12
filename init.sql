@@ -108,8 +108,9 @@ VALUES
 CREATE TABLE orders 
 (
     order_id SERIAL PRIMARY KEY,
-    product_id INT
+    product_id INT, 
 );
+
 INSERT INTO orders (product_id)
 VALUES 
 (1),
@@ -127,3 +128,24 @@ SELECT SUM(p.price)
 FROM orders o JOIN products p 
 ON o.product_id = p.product_id;
 
+ALTER TABLE orders
+ADD COLUMN user_id INT REFERENCES users (user_id);
+
+INSERT INTO orders (product_id, user_id)
+VALUES
+(2, 1);
+
+SELECT * FROM orders o JOIN users u 
+ON o.user_id = u.user_id
+WHERE o.user_id = 1;
+
+SELECT COUNT(*), u.name
+FROM users u JOIN orders o 
+ON o.user_id = u.user_id
+GROUP BY u.name;
+
+SELECT SUM(p.price), u.name
+FROM users u JOIN orders o 
+ON u.user_id = o.user_id 
+JOIN products p ON o.product_id = p.product_id 
+GROUP BY u.name;
